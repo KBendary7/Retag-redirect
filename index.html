@@ -14,14 +14,16 @@
 
   <div id="link-section" style="display: none;">
     <h2>Set Link Expiration Time</h2>
-    <label for="duration">Valid for (minutes):</label>
-    <input type="number" id="duration" min="1" placeholder="e.g., 10">
+    <label for="hours">Hours:</label>
+    <input type="number" id="hours" min="0" placeholder="e.g., 1">
+    <label for="minutes">Minutes:</label>
+    <input type="number" id="minutes" min="0" max="59" placeholder="e.g., 30">
     <button onclick="generateLink()">Generate Link</button>
     <p id="generated-link"></p>
   </div>
 
   <script>
-    const correctPassword = "retag"; // Change this
+    const correctPassword = "retag"; // Replace with your desired password
 
     function checkPassword() {
       const input = document.getElementById("password").value;
@@ -34,31 +36,36 @@
     }
 
     function generateLink() {
-      const duration = parseInt(document.getElementById("duration").value);
-      if (isNaN(duration) || duration < 1) {
+      const hours = parseInt(document.getElementById("hours").value) || 0;
+      const minutes = parseInt(document.getElementById("minutes").value) || 0;
+      const totalMinutes = hours * 60 + minutes;
+
+      if (totalMinutes <= 0) {
         alert("Please enter a valid duration.");
         return;
       }
 
-      const expirationTime = Date.now() + duration * 60000; // ms
+      const expirationTime = Date.now() + totalMinutes * 60000; // Convert to ms
       const link = `${window.location.origin}${window.location.pathname}?expires=${expirationTime}`;
       document.getElementById("generated-link").innerHTML = `
-        <a href="${link}">${link}</a><br><small>This link will be valid for ${duration} minutes.</small>
+        <a href="${link}">${link}</a><br>
+        <small>This link will be valid for ${hours}h ${minutes}m.</small>
       `;
     }
 
-    // Redirect logic
+    // Redirect logic on load
     window.onload = function () {
       const params = new URLSearchParams(window.location.search);
       if (params.has('expires')) {
         const expires = parseInt(params.get('expires'));
         if (Date.now() < expires) {
-          window.location.href = "https://sites.google.com/view/retagcatalogue/home"; // Valid
+          window.location.href = "https://sites.google.com/view/retagcatalogue/home";
         } else {
-          window.location.href = "https://sites.google.com/view/retagcatalogue/home/expired"; // Expired
+          window.location.href = "https://sites.google.com/view/retagcatalogue/home/expired";
         }
       }
     };
   </script>
 </body>
 </html>
+
