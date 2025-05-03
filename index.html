@@ -3,23 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <title>Access Retag Catalogue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #5e5e5e;
+    }
+    input[type="password"],
+    input[type="number"],
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .error {
+      color: red;
+      text-align: center;
+    }
+    .link-section {
+      display: none;
+      margin-top: 20px;
+    }
+    .generated-link a {
+      text-decoration: none;
+      color: #1a73e8;
+    }
+    .generated-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .container {
+        padding: 15px;
+        width: 100%;
+        max-width: 100%;
+      }
+      input[type="password"],
+      input[type="number"],
+      button {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div id="password-section">
-    <h2>Enter Password</h2>
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkPassword()">Submit</button>
-    <p id="password-error" style="color: red;"></p>
-  </div>
 
-  <div id="link-section" style="display: none;">
-    <h2>Set Link Expiration Time</h2>
-    <label for="hours">Hours:</label>
-    <input type="number" id="hours" min="0" placeholder="e.g., 1">
-    <label for="minutes">Minutes:</label>
-    <input type="number" id="minutes" min="0" max="59" placeholder="e.g., 30">
-    <button onclick="generateLink()">Generate Link</button>
-    <p id="generated-link"></p>
+  <div class="container">
+    <div id="password-section">
+      <h2>Enter Password</h2>
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="checkPassword()">Submit</button>
+      <p id="password-error" class="error"></p>
+    </div>
+
+    <div id="link-section" class="link-section">
+      <h2>Set Link Expiration Time</h2>
+      <label for="hours">Hours:</label>
+      <input type="number" id="hours" min="0" placeholder="e.g., 1">
+      <label for="minutes">Minutes:</label>
+      <input type="number" id="minutes" min="0" max="59" placeholder="e.g., 30">
+      <button onclick="generateLink()">Generate Link</button>
+      <div id="generated-link" class="generated-link"></div>
+    </div>
   </div>
 
   <script>
@@ -67,6 +147,7 @@
   </script>
 </body>
 </html>
+
 
 
 
