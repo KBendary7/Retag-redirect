@@ -23,7 +23,7 @@
   </div>
 
   <script>
-    const correctPassword = "retag"; // Replace with your desired password
+    const correctPassword = "retag"; // Change to your actual password
 
     function checkPassword() {
       const input = document.getElementById("password").value;
@@ -45,15 +45,14 @@
         return;
       }
 
-      const expirationTime = Date.now() + totalMinutes * 60000; // Convert to ms
-      const link = `${window.location.origin}${window.location.pathname}?expires=${expirationTime}`;
+      const expirationTime = Date.now() + totalMinutes * 60000;
+      const link = `https://kbendary7.github.io/retag-redirect/?expires=${expirationTime}`;
       document.getElementById("generated-link").innerHTML = `
-        <a href="${link}">${link}</a><br>
+        <a href="${link}" target="_blank">${link}</a><br>
         <small>This link will be valid for ${hours}h ${minutes}m.</small>
       `;
     }
 
-    // Redirect logic on load
     window.onload = function () {
       const params = new URLSearchParams(window.location.search);
       if (params.has('expires')) {
