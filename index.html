@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Access Retag Catalogue</title>
+</head>
+<body>
+  <div id="password-section">
+    <h2>Enter Password</h2>
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkPassword()">Submit</button>
+    <p id="password-error" style="color: red;"></p>
+  </div>
+
+  <div id="link-section" style="display: none;">
+    <h2>Set Link Expiration Time</h2>
+    <label for="duration">Valid for (minutes):</label>
+    <input type="number" id="duration" min="1" placeholder="e.g., 10">
+    <button onclick="generateLink()">Generate Link</button>
+    <p id="generated-link"></p>
+  </div>
+
+  <script>
+    const correctPassword = "retag"; // Change this
+
+    function checkPassword() {
+      const input = document.getElementById("password").value;
+      if (input === correctPassword) {
+        document.getElementById("password-section").style.display = "none";
+        document.getElementById("link-section").style.display = "block";
+      } else {
+        document.getElementById("password-error").innerText = "Incorrect password.";
+      }
+    }
+
+    function generateLink() {
+      const duration = parseInt(document.getElementById("duration").value);
+      if (isNaN(duration) || duration < 1) {
+        alert("Please enter a valid duration.");
+        return;
+      }
+
+      const expirationTime = Date.now() + duration * 60000; // ms
+      const link = `${window.location.origin}${window.location.pathname}?expires=${expirationTime}`;
+      document.getElementById("generated-link").innerHTML = `
+        <a href="${link}">${link}</a><br><small>This link will be valid for ${duration} minutes.</small>
+      `;
+    }
+
+    // Redirect logic
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('expires')) {
+        const expires = parseInt(params.get('expires'));
+        if (Date.now() < expires) {
+          window.location.href = "https://sites.google.com/view/retagcatalogue/home"; // Valid
+        } else {
+          window.location.href = "https://sites.google.com/view/retagcatalogue/home/expired"; // Expired
+        }
+      }
+    };
+  </script>
+</body>
+</html>
